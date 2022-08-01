@@ -8,7 +8,10 @@ function InfoCard() {
     // get the data from the api
     fetch('https://fe-assignment.vaimo.net/')
       .then((res) => res.json())
-      .then((data) => setUserData(data.product))
+      .then((data) => {
+        console.log(data.product);
+        setUserData(data.product);
+      })
       .catch(console.error);
   }, []);
 
@@ -35,10 +38,12 @@ function InfoCard() {
           </div>
 
           <div className="rating">
-            <span>⭐⭐⭐⭐⭐⭐ 5.0</span>
-            <span className="text--gray">7 reviews</span>
+            <span>⭐⭐⭐⭐⭐⭐ {userData.reviews?.rating}</span>
+            <span className="text--gray">
+              {userData.reviews?.count} reviews
+            </span>
             <span> - </span>
-            <span>19 buyers</span>
+            <span>{userData.reviews?.total_buyers} buyers</span>
           </div>
 
           <span className="separator"></span>
@@ -81,7 +86,6 @@ function InfoCard() {
                 </tr>
 
                 {Object.values(userData?.options || {}).map((option, i) => {
-                  console.log(option);
                   return (
                     <tr key={i}>
                       <td className="text--black">{option.label}</td>
@@ -111,19 +115,20 @@ function InfoCard() {
             </div>
             <div className="information">
               <span>alibaba.com Logistics</span>
-              <span>Inspection solution</span>
+              <span> Inspection solution</span>
             </div>
           </div>
         </div>
         <div className="product-shipping">
           <div className="around">
-            <p className="tx">Ship to South Africa</p>
+            <p className="tx"></p>
             <p className="tx"></p>
             <p>
-              Lead time 10 days <MdInfoOutline />
+              Lead Time {userData.shipping?.lead_time.value} <MdInfoOutline />
             </p>
             <p>
-              Shipping time 6-10 days <MdInfoOutline />
+              Shipping Time {userData.shipping?.method.shipping_time.value}{' '}
+              <MdInfoOutline />
             </p>
             <span className="price-text"></span>
             <div className="button button--active">Login to purchase</div>
